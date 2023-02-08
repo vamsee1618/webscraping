@@ -37,8 +37,8 @@ def main():
         res_planespotter = session_requests.post(login_url, 
                                 data = {
                                       
-                                      "username" : "jornthebest", # your username here
-                                      "password" : "jorn422", # your password here
+                                      "username" : "", # your username here
+                                      "password" : "", # your password here
                                       "csrf" : str(csrf_input),
                                       #"g-recaptcha-response":"",
                                       "rid":''
