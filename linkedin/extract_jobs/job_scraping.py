@@ -30,6 +30,7 @@ from itertools import product
 import re
 import pprint
 import numpy as np
+import random 
 tqdm.pandas()
 
 ### Job Title Dictionary - Titles and IDs
@@ -41,30 +42,43 @@ job_title_dictionary = {"Data Analyst":"340","Senior Data Analyst":"2463","Busin
                        "Data Associate":"7443","Business Intelligence Developer":"3282",
                         "Business Intelligence Analyst":"2336"}
 
+states     = [
+            'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
+            'California', 'Colorado', 'Connecticut', 'District of Columbia', 
+            'Delaware', 'Florida', 'Georgia', 'Hawaii', 
+            'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 
+            'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 
+            'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 
+            'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 
+            'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 
+            'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
+            'United States',
+            'San Francisco Bay Area', 'Los Angeles Metropolitan Area'
+            ] ## State list
+role_list   = ['Business Analyst','Data Engineer',"Data Scientist","Business Intelligence Engineer","Data Analyst"]
+level       = ["Entry", "Associate", "Mid-Senior"]
+onsite      = ['On-site']
+remote      = ['Remote']
+remote_location = ['United States']
+
 
 class LinkedInJobScraper:
-    def __init__(
-                 self, 
-                 job_title_dictionary=job_title_dictionary, 
+    """
+    Fetches the details of the each job
+    """
+    def __init__(self,filename='all_jobs'):
+        self.filename       =  filename
+   
+    def url_gen(self,job_title_dictionary=None, 
                  keywords=None, 
                  job_list=['Data Analyst','Senior Data Analyst','Business Analyst','Senior Business Analyst','Data Scientist','Senior Data Scientist'], 
                  job_location='California', 
                  job_period="&f_TPR=r604800", 
                  geo_id=None, 
                  experience_level=None,
-                 filename='all_jobs'
-                ):
-        self.job_title_dictionary = job_title_dictionary
-        self.keywords             = keywords
-        self.job_list             = job_list
-        self.job_location         = job_location
-        self.job_period           = job_period
-        self.geo_id               = geo_id
-        self.experience_level     = experience_level
-        self.filename             = filename
-        self.url                  = None
-   
-    def url_gen(self):
+                 workplace_type=None
+                 ):
+
         """
         Generates a URL for searching jobs on LinkedIn based on the provided parameters.
         
@@ -86,67 +100,95 @@ class LinkedInJobScraper:
             url = 'https://www.linkedin.com/jobs/search/?f_JT=F'
 
             ### specific inputs
-            period = self.job_period
+            period = job_period
             
             ### Applying the job titles filter
-            if self.job_list:
-                job_string = self.job_title_dictionary[self.job_list[0]]
-                if len(self.job_list)>1:
-                    for i in range(1,len(self.job_list)):
-                        job_string += '%2C' + self.job_title_dictionary[self.job_list[i]]
+            if job_list:
+                job_string = job_title_dictionary[job_list[0]]
+                if len(job_list)>1:
+                    for i in range(1,len(job_list)):
+                        job_string += '%2C' + job_title_dictionary[job_list[i]]
                 job_ids = '&f_T=' + job_string
                 url+= job_ids 
             
-            if self.keywords:
-                keywords = '&keywords=' + urllib.parse.quote(self.keywords)
+            if keywords:
+                keywords = '&keywords=' + urllib.parse.quote(keywords)
                 url+= keywords
             
-            if self.job_location:
-                location = "&location=" + urllib.parse.quote(self.job_location)
+            if job_location:
+                location = "&location=" + urllib.parse.quote(job_location)
             else:
                 location = "&location=" + "United%20States"
 
-            if self.experience_level:
-                if self.experience_level == "Entry":
+            url += period + location
+
+            if experience_level:
+                if experience_level == "Entry":
                     exp = '&f_E=' + str(2)
-                elif self.experience_level == "Associate":
+                elif experience_level == "Associate":
                     exp = '&f_E=' + str(3)
-                elif self.experience_level == "Mid-Senior":
+                elif experience_level == "Mid-Senior":
                     exp = '&f_E=' + str(4)
-                elif self.experience_level == "Director":
+                elif experience_level == "Director":
                     exp = '&f_E=' + str(5)
                 url+= exp 
-            
-            if self.geo_id:
-                geo = "&geoId=" + str(geo_id)
-                url += geo
-            else:
-                geo = ""
-            url += period + location
+
+            # Filter on-site only
+            if workplace_type:
+                if workplace_type == 'On-site':
+                    workplace_type = "&f_WT=1"
+                elif workplace_type=="Remote":
+                    workplace_type = "&f_WT=2"
+                url+=workplace_type
             
             # To distinguish Washington state from Washington DC
-            if self.geo_id:
+            if geo_id:
                 url = url + "&geoId={}".format(geo_id)
-            elif self.job_location == "Washington":
+            elif job_location == "Washington":
                 url = url + "&geoId=103977389"
-            elif self.job_location == "San Francisco Bay Area":
+            elif job_location == "San Francisco Bay Area":
                 url = url + "&geoId=90000084"
-            elif self.job_location == "Los Angeles Metropolitan Area":
+            elif job_location == "Los Angeles Metropolitan Area":
                 url = url + "&geoId=90000049"
             
-            self.url = url
+            url = url
                 
         except Exception as e:
             print("Error generating URL: ", e)
-        return self.url
+        return url
+   
+
+    def time_decider_func(self,time_decider=0):
+        if time_decider%2==0:
+            return 5
+        elif time_decider%3==0:
+            return 7
+        elif time_decider%7==0:
+            return 9
+        else:
+            return 6
+        
     
-    def close_browser(self):
-        """
-        Closes the web driver.
-        """
-        self.driver.quit()
-    
-    def scrape_jobs(self,driver):
+    def driver_launcher(self,username,password):
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        time.sleep(5)
+        driver.get("https://www.linkedin.com/login")
+        # Find and input email
+        time.sleep(3)
+        email = driver.find_element(By.ID, "username")
+        user_name = username
+        email.send_keys(user_name)
+        time.sleep(3)
+        # Find and input password
+        user_password = driver.find_element(By.ID, "password")
+        time.sleep(3)
+        linkedin_password = password
+        user_password.send_keys(linkedin_password)
+        time.sleep(3)
+        user_password.send_keys(Keys.RETURN)
+        return driver
+        
+    def scrape_jobs(self,driver,url):
         """
         Scrapes job information from the provided LinkedIn job search URL.
 
@@ -157,8 +199,12 @@ class LinkedInJobScraper:
             scraped job data
         """
         try:
-            driver.get(self.url) ### Driver get the URL
-            time.sleep(5)
+            print("Process Started")
+            time_decider=0
+            pause_time=random.randint(7,15)
+            time.sleep(pause_time)
+            driver.get(url) ### Driver get the URL
+            time.sleep(pause_time)
             job_data = []
             try:
                 ### Total Number of Pages
@@ -174,9 +220,10 @@ class LinkedInJobScraper:
             
             ## Iterate overall pages
             for i in range(total_pages):
-                job_search_url_page = self.url + '&start={}'.format(page_num) 
+                pause_time=self.time_decider_func(time_decider=time_decider)
+                job_search_url_page = url + '&start={}'.format(page_num) 
                 driver.get(job_search_url_page)
-                time.sleep(10)
+                time.sleep(pause_time+5)
                 html = driver.page_source
                 soup = BeautifulSoup(html, 'html.parser')
                 job_linkedin_url = 'https://www.linkedin.com/'
@@ -189,8 +236,9 @@ class LinkedInJobScraper:
                 
                 ## Iterate over all the jobs and extract info
                 for job_element in tqdm(total_job_elements):
+                    pause_time=random.randint(8,15)
                     job_element.click()
-                    time.sleep(10)
+                    time.sleep(pause_time+5)
                     job_text_dict = {}
                     html = driver.page_source
                     soup = BeautifulSoup(html, 'html.parser')
@@ -233,20 +281,22 @@ class LinkedInJobScraper:
                         job_text_dict['job_text']         = soup.select("div.jobs-details")[0].text
                     except:
                         pass
-                    time.sleep(5)
-                    job_text_dict['job_posting_type'] = self.job_list
+                    time.sleep(pause_time)
+                    #job_text_dict['job_posting_type'] = self.job_list
                     job_text_dict['run_date'] = datetime.now()
                     job_text_list.append(job_text_dict)
                     df_jobs = pd.DataFrame(job_text_list)
+                    time_decider+=1
                 # Save file for every page    
                 df_jobs.to_excel("jobs_data_{}_{}.xlsx".format(self.filename,date.today()))
                 page_num += 25 ## For every page there are 25 jobs
-                time.sleep(3)
+                time.sleep(pause_time)
             print('Process-Ended')
-            self.close_browser()
+            driver.quit()
+            return df_jobs
         except Exception as e:
              print(e)                                  
-        return df_jobs  
+          
     
 class dataframe_cleaning:
     def __init__(self):
@@ -321,30 +371,110 @@ class dataframe_cleaning:
         df_jobs['job_postdate'] =df_jobs.apply(lambda x: self.extract_post_date(x),axis=1)
         return df_jobs
 
-    
+class LinkedInOverallJobs(LinkedInJobScraper):
+    def __init__(self,states,role_list,level,onsite,remote,remote_location,key_list,value_list):
+        super().__init__()  # initialize the parent class
+        self.states         =   states
+        self.role_list      =   role_list
+        self.level          =   level
+        self.onsite         =   onsite
+        self.remote         =   remote
+        self.remote_location=   remote_location
+        self.key_list       =   key_list
+        self.value_list     =   value_list
+        pass
+
+    def pandas_dataframe(self):
+        df_onsites       = pd.DataFrame(list(product(states, role_list,level,onsite)), columns=['location', 'category','level','workplace_type'])
+        df_remotes       = pd.DataFrame(list(product(remote_location,role_list,level,remote)),columns=['location','category','level','workplace_type'])
+        df_on_re         = pd.concat([df_onsites,df_remotes])
+        df_on_re['Date'] = str(datetime.today().date())
+        df_on_re['URL'] = df_on_re.apply(lambda x: self.url_gen(self,keywords=x['category'], 
+                                                                job_list=None, 
+                                                                job_location=x['location'], 
+                                                                job_period="&f_TPR=r2592000", 
+                                                                workplace_type=x['workplace_type'],
+                                                                experience_level=x['level']
+                                                                ), axis=1)
+
+        return df_on_re
+
+    def retrieve_jobs(self):
+        input_index = 0
+        driver = self.driver_launcher(username=self.key_list[input_index],password=self.value_list[input_index])
+        df_on_re = self.pandas_dataframe()
+        postings_list = []
+        time_decider=0
+        try:
+            time.sleep(10)
+            for url in tqdm(df_on_re['URL']):
+                driver.get(url)
+                pause_time = random.randint(8,15)
+                time.sleep(pause_time+5)
+                html = driver.page_source
+                soup = BeautifulSoup(html, 'html.parser')
+                if "No matching jobs found." not in str(soup):
+                    postings = soup.find_all("small", class_="jobs-search-results-list__text")[0].text.strip()
+                    postings = postings.replace(" results", "")
+                else:
+                    print("Entered else statement")
+                    driver.quit()
+                    print("Window closed")
+                    time.sleep(pause_time+5)
+                    input_index+=1
+                    print("New Driver")
+                    driver = self.driver_launcher(username=self.key_list[input_index],password=self.value_list[input_index])
+                    print("New Driver Launched")
+                    driver.get(url)
+                    time.sleep(pause_time+5)
+                    html = driver.page_source
+                    soup = BeautifulSoup(html, 'html.parser')
+                    if "No matching jobs found." not in str(soup):
+                        postings = soup.find_all("small", class_="jobs-search-results-list__text")[0].text.strip()
+                        postings = postings.replace(" results", "")
+                    else:
+                        postings='0'
+                        driver.quit()
+                        time.sleep(pause_time+5)
+                        input_index-=1
+                        driver = self.driver_launcher(username=self.key_list[input_index],password=self.value_list[input_index])
+                        time.sleep(pause_time+5)
+                postings_list.append(postings)
+                df_postings_list = pd.DataFrame()
+                df_postings_list['postings']=postings_list
+                df_postings_list.to_csv('temp_postings_list.csv') 
+                time_decider+=1
+            print("Job Numbers Extraction Completed")
+            df_on_re['postings'] = postings_list
+            df_on_re['date'] = str(datetime.today().date())
+            df_on_re=df_on_re[["date","category","level","location","postings","workplace_type","URL"]]
+            return df_on_re
+        except Exception as e:
+            print(e) 
 
 if __name__ == "__main__":
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    time.sleep(5)
-    driver.get("https://www.linkedin.com/login")
-    # Find and input email
-    time.sleep(3)
-    email = driver.find_element(By.ID, "username")
-    user_name = input("Please provide user name:")
-    email.send_keys(user_name)
-    time.sleep(3)
-    # Find and input password
-    password = driver.find_element(By.ID, "password")
-    time.sleep(3)
-    linkedin_password = input("Please provide password:")
-    password.send_keys(linkedin_password)
-    password.send_keys(Keys.RETURN)
-    time.sleep(3)
-    scraping_class=LinkedInJobScraper()
-    url = scraping_class.url_gen()
-    df_jobs = scraping_class.scrape_jobs(driver)
-    dataframe_cleaning_class = dataframe_cleaning()
-    df_final = dataframe_cleaning_class.extract_required_info()
+    ## Each Job Scrape
+    run_what = input("Enter \"Each Job Scrape\" for each job details, if overall enter \"Overall\"")
+    if run_what == "Each Job Scrape":
+        LinkedInJobScraper = LinkedInJobScraper(filename="jobs_run")
+        url=LinkedInJobScraper.url_gen(job_title_dictionary=job_title_dictionary,
+                                    keywords=None, 
+                                    job_list=['Data Analyst','Senior Data Analyst'],
+                                    job_location='San Francisco Bay Area', 
+                                    job_period="&f_TPR=r604800"
+                          )
+        user_username=input("Enter User Name for Scrape")
+        user_password=input("Enter password for Scrape")
+        driver=LinkedInJobScraper.driver_launcher(username=user_username,password=user_password)
+        df=LinkedInJobScraper.scrape_jobs(driver,url)
+    else:
+        key_input_string = input("Enter all usernames as string with a comma")
+        key_list  = key_input_string.split(",")
+        value_input_string = input("Enter all passwords as string with a comma")
+        value_list  = value_input_string.split(",")
+        LinkedInOverallJobs=LinkedInOverallJobs(states,role_list,level,onsite,remote,remote_location,key_list,value_list)
+        df=LinkedInOverallJobs.retrieve_jobs()
+        
     
     
     
