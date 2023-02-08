@@ -14,39 +14,10 @@ headers = {'User-Agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 
 def main():
     try:
-        
         ### Part-2
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
         time.sleep(5)
-
-        driver.get("https://www.google.com/")
-        time.sleep(5)
-
-        search_key=driver.find_element(By.NAME,"q")
         
-        
-        search_key.send_keys("askew")
-        time.sleep(5)
-        search_key.send_keys(Keys.ENTER)
-
-        html = driver.page_source
-        soup = BeautifulSoup(html, 'html.parser')
-
-        print(soup.text)
-
-        ### 2nd search
-        search_key=driver.find_element(By.NAME,"q")
-        search_key.clear()
-        time.sleep(5)
-        search_key.send_keys("google in 1998")
-        time.sleep(5)
-        search_key.send_keys(Keys.ENTER)
-
-        html = driver.page_source
-        soup = BeautifulSoup(html, 'html.parser')
-
-        print(soup.text)
-
         ### Best Buy
         driver.get("https://www.bestbuy.com/")
         time.sleep(10)
@@ -59,7 +30,11 @@ def main():
         print(timeleft.text)
         time.sleep(5)
 
-        reviews_click=driver.find_element(By.CLASS_NAME,"c-reviews ")
+        product_click = driver.find_element(By.CLASS_NAME,"wf-offer-link")
+        product_click.click()
+        time.sleep(5)
+
+        reviews_click=driver.find_element(By.CLASS_NAME,"c-ratings-reviews")
         reviews_click.click()
 
         html = driver.page_source
