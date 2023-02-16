@@ -1,0 +1,109 @@
+,login,id,location,email,hireable,bio,twitter_username,public_repos,public_gists,followers,following,created_at
+0,aajisaka,3403122,"Tokyo, Japan",,,Software engineer @aws Glue. Apache (@apache) Hadoop/Yetus/Incubator committer and PMC member. Apache Member. I like OSS and distributed systems.,ajis_ka,31,43,210,47,2013-01-28 07:02:40
+1,vinoduec,384796,,,,,,1,1,37,0,2010-09-02 07:32:46
+2,szetszwo,907380,,,,,,6,0,65,0,2011-07-11 09:30:08
+3,arp7,2480225,,,,,,12,1,27,2,2012-10-03 15:51:33
+4,cnauroth,227407,"Seattle, WA",,,"Software engineer at Google Cloud Dataproc.  Apache Hadoop PMC member.  ASF member.  The opinions stated here are my own, not necessarily those of my employer.",cnauroth,31,5,78,17,2010-03-21 18:06:44
+5,jlowe,1360766,"Champaign, IL",,,,,9,0,19,0,2012-01-20 22:15:01
+6,umbrant,33948,,,,,,33,4,94,4,2008-11-11 23:57:45
+7,steveloughran,162090,"Bristol, England",,,"Afraid I am not a reviewing any issues/PRs that or not critical. Sorry -I am just desperately trying to get my RSI problems under control
+",,56,13,408,0,2009-12-04 18:56:43
+8,toddlipcon,14135,"San Francisco, CA",,,,tlipcon,103,276,427,8,2008-06-18 03:04:16
+9,anuengineer,2831777,,,,,,18,0,15,3,2012-11-19 05:35:44
+10,atm,148338,,,,,atm,5,0,28,0,2009-11-03 15:19:34
+11,elicollins,131502,California,,,,,6,0,32,1,2009-09-26 05:57:26
+12,jian-he,3662775,,,,"Now at Alibaba, previously at  Hortonworks.
+Hadoop Committer & PMC
+",,29,0,82,0,2013-02-21 19:34:51
+13,Jing9,359132,,,,,,0,0,14,2,2010-08-09 21:41:03
+14,acmurthy,316888,,,,,,5,0,50,0,2010-06-28 22:18:22
+15,wangdatan,20328673,Santa Clara,,,"Apache Hadoop/Submarine/YuniKorn PMC member, ASF Member",,7,0,43,0,2016-07-06 23:49:45
+16,xiaoyuyao,7039184,,,,Apache Hadoop PMC and Committer. Working on Open Source Software: Hadoop/HDFS/Ozone.,,59,1,31,2,2014-03-23 15:42:25
+17,kihwal,340000,,,,"@apache Hadoop Committer and a member of Hadoop PMC.
+Software Engineer at @yahoo.
+Extra Class amateur radio operator, a life member of @Arrl.",,17,0,9,0,2010-07-21 18:09:50
+18,kambatla,648114,"Mountain View, CA",,,,,15,0,20,4,2011-03-03 01:12:39
+19,sunilgovind,7998680,,,,,,5,0,16,3,2014-06-26 18:06:13
+20,aw-was-here,7633626,"San Jose, CA, USA, Earth, Solar System, Orion-Cygnus Arm, Milky Way",,,,,22,0,18,0,2014-05-19 17:54:13
+21,szilard-nemeth,954799,"Budapest, Hungary",,,"An enthusiastic SW Engineer who loves coding, SW design and tinkering with his projects. True believer of automation. Simple as that.
++Apache Hadoop PMC member",szilard_nemeth,47,0,13,19,2011-08-02 18:36:40
+22,ayushtkn,25608848,India,,,"Apache Hadoop, Hive & Ozone PMC Member & Committer",ayushpsaxena,10,0,18,0,2017-02-07 10:34:19
+23,revans2,3441321,Champaign IL,,,,,21,4,135,0,2013-01-31 18:51:35
+24,vinayakumarb,15498544,,,,,,17,0,9,0,2015-10-31 02:16:35
+25,macroadster,328366,,,,,,5,0,3,0,2010-07-10 17:18:31
+26,jojochuang,2691807,,,,A happy contributor of Apache Hadoop project.,,51,2,50,0,2012-10-31 14:28:11
+27,JunpingDu,888093,BJ,,True,Hadooper,,36,0,198,5,2011-07-01 06:27:41
+28,tomwhite,85085,"Wales, UK",,,,,200,2,908,2,2009-05-15 20:30:34
+29,bharatviswa504,8586345,Canada,,True,,,36,0,8,4,2014-08-29 02:38:41
+30,yangwwei,14214570,California,,,Tech Lead | Open Source Developer | @Apple @apache  @CNCF,,24,0,52,0,2015-09-10 08:44:10
+31,elek,170549,,,True,,,273,40,95,25,2009-12-21 15:17:38
+32,rohithsharmaks,15336756,Bengaluru,,,,rohithsharmaks,14,0,4,0,2015-10-27 05:12:35
+33,oza,104111,"Tokyo, Japan",,,,,64,84,88,49,2009-07-12 11:50:13
+34,linyiqun,7877836,"Shanghai, China",,,"Apache Hadoop PMC & Apache Ozone PMC, mainly focus on distributed storage. I do believe code can change the world!",,22,0,1023,10,2014-06-13 06:53:45
+35,cmccabe,1095624,"Sunnyvale, CA",,,,,57,2,64,0,2011-10-01 22:28:19
+36,xiao-chen,14279024,,,,,,17,2,15,11,2015-09-14 16:40:54
+37,rkanter,3588587,,,,,,14,0,20,4,2013-02-13 22:06:12
+38,liuml07,159186,San Francisco Bay Area,,,Innocent Contributor.,liuml07,6,10,123,61,2009-11-28 13:19:27
+39,xslogic,31204,"Sunnyvale, CA",,,,,22,6,40,5,2008-10-27 08:54:58
+40,umamaheswararao,1719507,"Santa Clara, CA, USA",,,http://people.apache.org/~umamahesh/umamahesh.html,,21,0,8,0,2012-05-08 20:21:50
+41,cdouglas,145508,,,,,,2,2,21,5,2009-10-27 21:46:30
+42,zjshen14,35021395,,,,,,19,12,24,5,2018-01-02 05:40:36
+43,nandakumar131,8871229,Chennai,,,,,13,0,12,0,2014-09-23 05:51:39
+44,sryza,654855,San Francisco,,,,s_ryz,46,10,559,20,2011-03-07 03:31:41
+45,shvachko,11998604,San Francisco Bay Area,,,,,2,3,12,0,2015-04-17 18:42:22
+46,virajjasani,34790606,,,,,,16,0,14,0,2017-12-23 10:56:25
+47,xgong,3181402,,,,,,14,0,3,1,2013-01-04 00:15:55
+48,templedf,651386,Palo Alto,,,,,11,1,24,0,2011-03-04 17:34:25
+49,brahmareddybattula,1954406,Bangalore,,,,brahmareddyb,8,0,8,7,2012-07-11 05:38:15
+50,slfan1989,55643692,,,,,,42,0,6,30,2019-09-22 02:49:02
+51,tgravescs,4563792,,,,,,18,2,54,0,2013-05-29 20:48:16
+52,iwasakims,1856607,,,,,,46,0,24,2,2012-06-16 12:03:54
+53,sidseth,1817602,,,,,,14,0,10,1,2012-06-05 02:09:17
+54,zhe-thoughts,10713559,"Sunnyvale, CA, USA",,,Zhe leads the @ray-project Ray.io team at @anyscale ,zhz_ray,16,0,76,131,2015-01-26 18:59:17
+55,varunsaxena,10049695,Bangalore,,,"Apache Hadoop PMC and Committer, Staff Engineer @ LinkedIn",,16,0,7,7,2014-12-02 16:24:27
+56,QwertyManiac,31518,,,,,,4,0,79,1,2008-10-28 20:39:50
+57,jnp,903890,,,,,,5,0,2,0,2011-07-08 23:04:41
+58,haibchen,5755773,Mountain View,,,,,4,0,10,8,2013-10-23 11:45:11
+59,mukul1987,4317412,Bangalore,,,,,25,0,6,0,2013-05-02 03:23:25
+60,bshashikant,31469764,,,,,,4,0,1,0,2017-08-30 08:07:39
+61,sjlee,197079,,,,,,15,4,31,0,2010-02-04 21:05:18
+62,GauthamBanasandra,10280768,Bangalore,,,,,58,16,30,6,2014-12-23 13:56:33
+63,tasanuma,11712443,"Tokyo, Japan",,,"Software Engineer, Apache Hadoop Committer",,14,1,20,12,2015-03-30 01:55:03
+64,billierinaldi,1810597,,,,,,12,2,3,0,2012-06-02 19:56:36
+65,ashutoshcipher,17571497,London,,,"AWS - EMR/hadoop Dataplane 
+",,20,0,9,16,2016-03-01 14:41:45
+66,tomscut,55134131,Singapore,,,"Apache Hadoop Committer. 
+Keep Learning~",,96,0,24,37,2019-09-10 09:04:25
+67,subru,2194334,,,,,,1,0,1,0,2012-08-22 05:57:39
+68,adoroszlai,6454655,Hungary,,,,,81,0,25,0,2014-01-20 21:34:08
+69,varun-vasu,45411708,,,,,,0,0,0,0,2018-11-28 02:47:30
+70,surendralilhore,45159337,,,,,,2,0,2,0,2018-11-19 05:26:48
+71,naga-apache,50343640,,,,,,0,0,0,0,2019-05-06 22:29:19
+72,y-liu,5966204,,,,,,1,0,1,0,2013-11-18 06:54:26
+73,omalley,206536,"Sunnyvale, CA",,,"I'm a software engineer that has been working on big data open source projects since 2006. I'm a PMC member of Hadoop, Hive, and ORC.",,30,13,121,9,2010-02-19 06:37:46
+74,hanishakoneru,10237377,"San Jose, CA",,True,,,7,0,0,0,2014-12-18 21:54:35
+75,bibinchundatt,11779290,Bangalore,,True,Apache Hadoop PMC member,,7,0,2,2,2015-04-03 01:15:53
+76,Hexiaoqiao,1393756,Beijing,,,,,42,0,86,47,2012-01-31 07:10:01
+77,xkrogen,6570401,Bay Area,,,,,12,1,18,1,2014-02-02 22:48:21
+78,pbacsko,22025731,,,,,,7,0,3,1,2016-09-06 10:15:19
+79,flyrain,1322359,,,,,,23,2,9,0,2012-01-11 17:08:14
+80,smengcl,50227127,"Palo Alto, CA",,,Software Engineer @ Cloudera / Apache Hadoop Committer / Apache Ozone PMC & Committer / This is a work account :),,13,0,4,0,2019-05-03 05:27:06
+81,amahussein,50450311,,,,,,12,0,4,1,2019-05-09 12:23:42
+82,ericbadger,43999255,,,,,,0,0,0,0,2018-10-09 15:50:24
+83,ZanderXu,17900637,beijing,,,,,20,0,16,24,2016-03-17 09:22:59
+84,virajith,5614738,"Sunnyvale, CA",,,,,1,0,2,0,2013-10-04 22:16:50
+85,rakeshadr,8215991,Bangalore,,,"Apache committer & PMC member - Ozone, Hadoop, ZooKeeper, BookKeeper projects. Mainly focussing on distributed storage systems.",rakeshadr,9,0,5,7,2014-07-20 13:43:33
+86,jianghuazhu,6416939,HangZhou,,,,,31,0,3,22,2014-01-16 06:24:02
+87,mukund-thakur,10720944,,,,,,9,0,7,2,2015-01-27 06:34:52
+88,erichadoop,74205577,,,,,,0,0,0,0,2020-11-09 17:56:21
+89,mingmasplace,2583464,,,,,,1,2,0,0,2012-10-17 19:20:51
+90,jghoman,95350,Seattle,,,,,163,10,128,40,2009-06-14 21:30:03
+91,hungj,2773275,,,,,,7,0,8,0,2012-11-11 19:55:06
+92,gerashegalov,3187938,"San Francisco, CA",,,database & ml engineering,gerashegalov,34,0,14,7,2013-01-04 19:14:06
+93,vivekratnavel,1051198,Santa Clara,,,,,26,1,26,6,2011-09-14 19:25:16
+94,mehakmeet,25390047,,,,Cloud Connectors and Algorithms.,,32,0,11,7,2017-01-27 16:36:12
+95,9uapaw,24417674,,,,,,15,0,6,7,2016-12-06 18:38:41
+96,sborya,959768,,,,,,4,0,1,0,2011-08-04 19:27:33
+97,abmodi,3080594,Bangalore,,,Learning big-data.,,25,0,7,3,2012-12-19 12:16:02
+98,jzhuge,1883812,San Francisco Bay Area,,,"Apache Hadoop PMC. Interested in hyper-scale storage systems, distributed systems, cloud computing, concurrent, reactive, and parallel programming.",,37,3,48,6,2012-06-23 08:52:44
+99,raviprak-altiscale,6579005,"Palo Alto, CA",,,,,0,1,4,0,2014-02-03 21:27:28
