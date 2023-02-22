@@ -34,13 +34,7 @@ import random
 tqdm.pandas()
 
 ### Job Title Dictionary - Titles and IDs
-job_title_dictionary = {"Data Analyst":"340","Senior Data Analyst":"2463","Business Analyst":"29",
-                        "Senior Business Analyst":"194","Product Manager":"27","Senior Product Manager":"270",
-                       "Project Manager":"4","Senior Project Manager":"77","Data Engineer":"2732",
-                       "Data Scientist":"25190","Senior Data Scientist":"25887","Machine Learning":"25206",
-                       "Lead Data Scientist":"25885","Data Science Manager":"30009","Analytics Specialist":"30209",
-                       "Data Associate":"7443","Business Intelligence Developer":"3282",
-                        "Business Intelligence Analyst":"2336"}
+
 
 states     = [
             'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
@@ -66,12 +60,12 @@ class LinkedInJobScraper:
     """
     Fetches the details of the each job
     """
-    def __init__(self,filename='all_jobs'):
-        self.filename       =  filename
+    def __init__(self):
+        pass
    
-    def url_gen(self,job_title_dictionary=None, 
+    def url_gen(self, 
                  keywords=None, 
-                 job_list=['Data Analyst','Senior Data Analyst','Business Analyst','Senior Business Analyst','Data Scientist','Senior Data Scientist'], 
+                 job_list=None, 
                  job_location='California', 
                  job_period="&f_TPR=r604800", 
                  geo_id=None, 
@@ -96,6 +90,13 @@ class LinkedInJobScraper:
             URL to search
         """
         try:
+            job_title_dictionary = {"Data Analyst":"340","Senior Data Analyst":"2463","Business Analyst":"29",
+                        "Senior Business Analyst":"194","Product Manager":"27","Senior Product Manager":"270",
+                       "Project Manager":"4","Senior Project Manager":"77","Data Engineer":"2732",
+                       "Data Scientist":"25190","Senior Data Scientist":"25887","Machine Learning":"25206",
+                       "Lead Data Scientist":"25885","Data Science Manager":"30009","Analytics Specialist":"30209",
+                       "Data Associate":"7443","Business Intelligence Developer":"3282",
+                        "Business Intelligence Analyst":"2336"}
             ### base url for job search
             url = 'https://www.linkedin.com/jobs/search/?f_JT=F'
 
@@ -104,10 +105,22 @@ class LinkedInJobScraper:
             
             ### Applying the job titles filter
             if job_list:
-                job_string = job_title_dictionary[job_list[0]]
-                if len(job_list)>1:
-                    for i in range(1,len(job_list)):
-                        job_string += '%2C' + job_title_dictionary[job_list[i]]
+                job_string = ''
+                if job_list == 'Data Analyst':
+                    for i in ["Data Analyst","Senior Data Analyst","Analytics Specialist","Data Associate"]:
+                        job_string += '%2C' + job_title_dictionary[i]
+                if job_list == 'Data Scientist':
+                    for i in ["Data Scientist","Senior Data Scientist","Machine Learning","Lead Data Scientist","Data Science Manager"]:
+                        job_string += '%2C' + job_title_dictionary[i]
+                if job_list == 'Business Analyst':
+                    for i in ["Business Analyst","Senior Business Analyst","Business Intelligence Analyst","Business Intelligence Developer"]:
+                        job_string += '%2C' + job_title_dictionary[i]
+                if job_list == 'Project Manager':
+                    for i in ["Project Manager","Senior Project Manager"]:
+                        job_string += '%2C' + job_title_dictionary[i]
+                if job_list == 'Product Manager':
+                    for i in ["Product Manager","Senior Product Manager"]:
+                        job_string += '%2C' + job_title_dictionary[i]
                 job_ids = '&f_T=' + job_string
                 url+= job_ids 
             
@@ -152,10 +165,12 @@ class LinkedInJobScraper:
                 url = url + "&geoId=90000049"
             
             url = url
+            
+            return url
                 
         except Exception as e:
             print("Error generating URL: ", e)
-        return url
+        
    
 
     def time_decider_func(self,time_decider=0):
@@ -188,7 +203,7 @@ class LinkedInJobScraper:
         user_password.send_keys(Keys.RETURN)
         return driver
         
-    def scrape_jobs(self,driver,url):
+    def scrape_jobs(self,driver,url,job_role_input,job_location):
         """
         Scrapes job information from the provided LinkedIn job search URL.
 
@@ -200,8 +215,7 @@ class LinkedInJobScraper:
         """
         try:
             print("Process Started")
-            time_decider=0
-            pause_time=random.randint(7,15)
+            pause_time=random.randint(7,10)
             time.sleep(pause_time)
             driver.get(url) ### Driver get the URL
             time.sleep(pause_time)
@@ -218,9 +232,10 @@ class LinkedInJobScraper:
             page_num = 0
             job_text_list = []
             
+            print("Total Number of Pages: {}".format(total_pages))
             ## Iterate overall pages
             for i in range(total_pages):
-                pause_time=self.time_decider_func(time_decider=time_decider)
+                pause_time=random.randint(5,10)
                 job_search_url_page = url + '&start={}'.format(page_num) 
                 driver.get(job_search_url_page)
                 time.sleep(pause_time+5)
@@ -236,9 +251,9 @@ class LinkedInJobScraper:
                 
                 ## Iterate over all the jobs and extract info
                 for job_element in tqdm(total_job_elements):
-                    pause_time=random.randint(8,15)
+                    pause_time=random.randint(5,10)
                     job_element.click()
-                    time.sleep(pause_time+5)
+                    time.sleep(pause_time)
                     job_text_dict = {}
                     html = driver.page_source
                     soup = BeautifulSoup(html, 'html.parser')
@@ -286,9 +301,10 @@ class LinkedInJobScraper:
                     job_text_dict['run_date'] = datetime.now()
                     job_text_list.append(job_text_dict)
                     df_jobs = pd.DataFrame(job_text_list)
-                    time_decider+=1
+                    df_jobs['job_role_input'] = job_role_input
+                    df_jobs['job_role_input'] = job_location
                 # Save file for every page    
-                df_jobs.to_excel("jobs_data_{}_{}.xlsx".format(self.filename,date.today()))
+                df_jobs.to_excel("jobs_data_{}_{}_{}.xlsx".format(job_role_input,job_location,date.today()))
                 page_num += 25 ## For every page there are 25 jobs
                 time.sleep(pause_time)
             print('Process-Ended')
@@ -456,17 +472,16 @@ if __name__ == "__main__":
     ## Each Job Scrape
     run_what = input("Enter \"Each Job Scrape\" for each job details, if overall enter \"Overall\"")
     if run_what == "Each Job Scrape":
-        LinkedInJobScraper = LinkedInJobScraper(filename="jobs_run")
-        url=LinkedInJobScraper.url_gen(job_title_dictionary=job_title_dictionary,
-                                    keywords=None, 
-                                    job_list=['Data Analyst','Senior Data Analyst'],
-                                    job_location='San Francisco Bay Area', 
-                                    job_period="&f_TPR=r604800"
-                          )
+        LinkedInJobScraper = LinkedInJobScraper()
+        url=LinkedInJobScraper.url_gen( 
+                 job_list='', 
+                 job_location='', 
+                 job_period=""
+                )
         user_username=input("Enter User Name for Scrape")
         user_password=input("Enter password for Scrape")
         driver=LinkedInJobScraper.driver_launcher(username=user_username,password=user_password)
-        df=LinkedInJobScraper.scrape_jobs(driver,url)
+        df=LinkedInJobScraper.scrape_jobs(driver,url,job_role_input=job_role,job_location=location)
     else:
         key_input_string = input("Enter all usernames as string with a comma")
         key_list  = key_input_string.split(",")
