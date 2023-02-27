@@ -302,7 +302,7 @@ class LinkedInJobScraper:
                     job_text_list.append(job_text_dict)
                     df_jobs = pd.DataFrame(job_text_list)
                     df_jobs['job_role_input'] = job_role_input
-                    df_jobs['job_role_input'] = job_location
+                    df_jobs['job_location_input'] = job_location
                 # Save file for every page    
                 df_jobs.to_excel("jobs_data_{}_{}_{}.xlsx".format(job_role_input,job_location,date.today()))
                 page_num += 25 ## For every page there are 25 jobs
